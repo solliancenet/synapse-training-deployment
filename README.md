@@ -16,6 +16,7 @@
     - [Task 1: Pre-requisites](#task-1-pre-requisites)
     - [Task 2: Download artifacts and install PowerShell modules](#task-2-download-artifacts-and-install-powershell-modules)
     - [Task 3: Execute setup scripts](#task-3-execute-setup-scripts)
+    - [Task 4: Pause SQL pool](#task-4-pause-sql-pool)
 <!-- /TOC -->
 
 ## Requirements
@@ -34,6 +35,10 @@
 3. A Power BI Pro or Premium account to host Power BI reports, dashboards, and configuration of streaming datasets.
 
 ## Environment setup instructions
+
+> **Note:**
+>
+> The entire setup process will take from 1.5 to 2 hours to complete.
 
 ## Azure Setup
 
@@ -81,7 +86,7 @@
 
 ## Steps & Timing
 
-The entire script will take a little over an hour to complete.  Major steps include:
+The entire script will take between 1.5 and 2 hours to complete. Major steps include:
 
 - Configure Synapse resources
 - Download all data sets and files into the data lake (~15 mins)
@@ -198,6 +203,22 @@ The entire script will take a little over an hour to complete.  Major steps incl
 7. Select **Microsoft Account** for the **Authentication method** and select **Sign In** to complete the process.
 
     ![From the list of authentication methods Microsoft Account is picked. The sign in button is selected. ](media/powerbi_datasource_credentials-update.png)
+
+### Task 4: Pause SQL pool
+
+> **Note:**
+> 
+> If you are **not** planning on using the Synapse workspace environment right away, follow the steps in this task to pause the SQL pool. Otherwise, you will incur potentially significant cost.
+
+1. Navigate to the resource group into which you deployed this environment.
+
+2. Select the **SQL pool** (`SQLPool01`).
+
+    ![The SQL pool is highlighted.](media/sql-pool.png "SQLPool01")
+
+3. Select **|| Pause** to pause the pool.
+
+    ![The pause button is highlighted.](media/sql-pool-pause.png "Pause the SQL pool")
 
 <!-- ### Task 8: Location Analytics Streaming Dataset Setup
 
