@@ -141,11 +141,17 @@ The entire script will take a little over an hour to complete.  Major steps incl
     Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
     ```
 
-* **Close the Windows PowerShell window** so you can import the newly installed Az.CosmosDB cmdlet.
+* **Close the Windows PowerShell window** so you can import the newly installed `Az.CosmosDB` module.
 
 ### Task 3: Execute setup scripts
 
 * Open Windows PowerShell as an Administrator and execute the following:
+
+    ```powershell
+    Set-ExecutionPolicy Unrestricted
+    ```
+
+* Execute the following to import the `Az.CosmosDB` module:
 
     ```powershell
     Import-Module Az.CosmosDB
@@ -157,7 +163,6 @@ The entire script will take a little over an hour to complete.  Major steps incl
     cd c:\labfiles\synapse-training-deployment\artifacts\environment-setup\automation\
     ```
 
-* Run `Set-ExecutionPolicy Unrestricted`.
 * Execute `Connect-AzAccount` and sign in to your Microsoft user account when prompted.
 * Execute `az login` and sign in to your Microsoft user account when prompted.
 * Execute `.\01-environment-setup.ps1`
