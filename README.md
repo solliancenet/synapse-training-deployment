@@ -1,11 +1,11 @@
 
-# Demo setup: Realize Integrated Analytical Solutions with Azure Synapse Analytics
+# Lab setup: Azure Synapse Analytics training environment
 
 **Contents**
 
 <!-- TOC -->
 
-- [Demo setup: Realize Integrated Analytical Solutions with Azure Synapse Analytics](#demo-setup-realize-integrated-analytical-solutions-with-azure-synapse-analytics)
+- [Lab setup: Azure Synapse Analytics training environment](#lab-setup-azure-synapse-analytics-training-environment)
   - [Requirements](#requirements)
   - [Environment setup instructions](#environment-setup-instructions)
   - [Azure Setup](#azure-setup)
@@ -14,7 +14,7 @@
   - [Before starting](#before-starting)
   - [Steps & Timing](#steps--timing)
     - [Task 1: Pre-requisites](#task-1-pre-requisites)
-    - [Task 1: Download artifacts and install PowerShell modules](#task-1-download-artifacts-and-install-powershell-modules)
+    - [Task 2: Download artifacts and install PowerShell modules](#task-2-download-artifacts-and-install-powershell-modules)
     - [Task 3: Execute setup scripts](#task-3-execute-setup-scripts)
 <!-- /TOC -->
 
@@ -61,7 +61,7 @@
 
 1. Deploy the workspace through the following Azure ARM template (press the button below):
 
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fctesta-oneillmsft%2Fasa-vtd%2Fmaster%2Fartifacts%2Fenvironment-setup%2fautomation%2F00-asa-workspace-core.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png" /></a>
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsolliancenet%2Fsynapse-training-deployment%2Fmaster%2Fartifacts%2Fenvironment-setup%2fautomation%2F00-asa-workspace-core.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png" /></a>
 
 2. On the **Custom deployment** form fill in the fields described below.
 
@@ -96,7 +96,7 @@ The entire script will take a little over an hour to complete.  Major steps incl
 * Install Microsoft Online Services Sign-In Assistant for IT Professionals RTW: <https://www.microsoft.com/download/details.aspx?id=41950>
 * [Windows PowerShell](https://docs.microsoft.com/powershell/scripting/windows-powershell/install/installing-windows-powershell?view=powershell-7)
 
-### Task 1: Download artifacts and install PowerShell modules
+### Task 2: Download artifacts and install PowerShell modules
 
 1. Open a PowerShell Window as an administrator, run the following command to download the artifacts
 
@@ -105,7 +105,7 @@ The entire script will take a little over an hour to complete.  Major steps incl
 
     cd c:\labfiles
 
-    git clone https://github.com/ctesta-oneillmsft/asa-vtd.git synapse-in-a-day-deployment
+    git clone https://github.com/solliancenet/synapse-training-deployment.git synapse-training-deployment
     ```
 
 * Install Azure PowerShell module
@@ -153,7 +153,7 @@ The entire script will take a little over an hour to complete.  Major steps incl
 * Change directories to the root of this repo within your local file system.
 
     ```powershell
-    cd c:\labfiles\synapse-in-a-day-deployment\artifacts\environment-setup\automation\
+    cd c:\labfiles\synapse-training-deployment\artifacts\environment-setup\automation\
     ```
 
 * Run `Set-ExecutionPolicy Unrestricted`.

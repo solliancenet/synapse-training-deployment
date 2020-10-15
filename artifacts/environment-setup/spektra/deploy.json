@@ -193,7 +193,7 @@
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "fileUris": [
-                  "https://github.com/ctesta-oneillmsft/asa-vtd/blob/master/artifacts/environment-setup/spektra/post-install-script01.ps1"
+                  "https://github.com/solliancenet/synapse-training-deployment/blob/master/artifacts/environment-setup/spektra/post-install-script01.ps1"
                 ]
               },
               "protectedSettings": {
