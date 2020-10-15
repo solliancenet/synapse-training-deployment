@@ -5,7 +5,7 @@
     "uniqueSuffix": {
       "type": "String",
       "metadata": {
-        "description": "Suffix added to all resource name to make them unique."
+        "description": "Suffix added to all resource names to make them unique. Use a maximum of 6 lower-case characters and numbers with no spaces."
       }
     },
     "sqlAdministratorLoginPassword": {
