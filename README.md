@@ -48,17 +48,17 @@
 
 2. On the Azure Portal home screen, select the **+ Create a resource** tile.
 
-    ![A portion of the Azure Portal home screen is displayed with the + Create a resource tile highlighted.](media/bhol_createaresource.png)
+    ![A portion of the Azure Portal home screen is displayed with the + Create a resource tile highlighted.](media/bhol_createaresource.png "Create a resource")
 
 3. In the **Search the Marketplace** text box, type **Resource group** and press the **Enter** key.
 
-    ![On the new resource screen Resource group is entered as a search term.](media/bhol_searchmarketplaceresourcegroup.png)
+    ![On the new resource screen Resource group is entered as a search term.](media/bhol_searchmarketplaceresourcegroup.png "New")
 
 4. Select the **Create** button on the **Resource group** overview page.
 
-5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **synapse-in-a-day-demos**, then select the **Review + Create** button.
+5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **synapse-training**, then select the **Review + Create** button.
 
-    ![The Create a resource group form is displayed populated with Synapse-MCW as the resource group name.](media/bhol_resourcegroupform.png)
+    ![The Create a resource group form is displayed populated with synapse-training as the resource group name.](media/bhol_resourcegroupform.png "Create a resource group")
 
 6. Select the **Create** button once validation has passed.
 
@@ -188,21 +188,21 @@ The entire script will take between 1.5 and 2 hours to complete. Major steps inc
 
 3. Sign in into the [Power BI Portal](https://powerbi.microsoft.com/en-us/) using your Azure credentials.
 
-4. From the hamburger menu select **Workspaces** to access the list of workspaces available to you. Select your workspace.
+4. From the hamburger menu select **Workspaces** to access the list of workspaces available to you. Select your the **workspace named after your resource group** (eg. `synapse-training`).
 
-    ![The workspaces button from the hamburger menu is selected to list workspaces available.](media/powerbi_workspace_selection.png)
+    ![The workspaces button from the hamburger menu is selected to list workspaces available.](media/powerbi_workspace_selection.png "Power BI Workspaces")
 
 5. Select the **Settings** icon from the top right bar, and select **Settings** again to navigate to the settings page.
 
-    ![The settings button on the Power BI portal clicked and the Settings selection on the context menu selected.](media/powerbi_settings_menu.png)
+    ![The settings button on the Power BI portal clicked and the Settings selection on the context menu selected.](media/powerbi_settings_menu.png "Settings")
 
-6. Select **datasets** tab to access the list of datasets available. Then select `2-Billion Rows Demo` dataset to access its settings. From the settings page open **Data source credentials** and select **Edit credentials**.
+6. Select the **datasets** tab to access the list of datasets available. Then select `2-Billion Rows Demo` dataset to access its settings. From the settings page open **Data source credentials** and select **Edit credentials**.
 
-    ![The datasets tab is selected. From the list of datasets 2-Billion Rows Demo is selected. Edit credentials will be selected next. ](media/powerbi_datasource_credentials.png)
+    ![The datasets tab is selected. From the list of datasets 2-Billion Rows Demo is selected. Edit credentials will be selected next. ](media/powerbi_datasource_credentials.png "Datasets")
 
 7. Select **Microsoft Account** for the **Authentication method** and select **Sign In** to complete the process.
 
-    ![From the list of authentication methods Microsoft Account is picked. The sign in button is selected. ](media/powerbi_datasource_credentials-update.png)
+    ![From the list of authentication methods Microsoft Account is picked. The sign in button is selected. ](media/powerbi_datasource_credentials-update.png "Configure 2-Billion Rows Demo")
 
 ### Task 4: Pause SQL pool
 
