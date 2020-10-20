@@ -112,6 +112,14 @@ We highly recommend executing the PowerShell scripts on an Azure Virtual Machine
 
     ![Connect to a remote host.](media/azure-vm-connect-3.png "Connect to a remote host")
 
+8. From the following URL, go to the Power BI Desktop download site and select **Download free**: Power BI Desktop: <https://powerbi.microsoft.com/desktop/>
+
+    ![The download page is displayed.](media/pbi-desktop-download.png "Power BI Desktop download")
+
+9. Install the software from the Microsoft store.
+
+    ![The desktop software is installing in the Microsoft Store.](media/pbi-desktop-install.png "Power BI Desktop")
+
 ### Task 3: Create Azure Synapse Analytics workspace
 
 1. Deploy the workspace through the following Azure ARM template (press the button below):
