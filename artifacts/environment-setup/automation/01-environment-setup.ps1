@@ -160,7 +160,15 @@ $amlid = (Get-AzADServicePrincipal -DisplayName $amlworkspacename).id
 Set-AzKeyVaultAccessPolicy -ResourceGroupName $resourceGroupName -VaultName $keyVaultName -ObjectId $amlid -PermissionsToSecrets set,delete,get,list
 
 #remove need to ask for the password in script.
-$global:sqlPassword = $(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name "SqlPassword").SecretValueText
+$sqlPasswordSecret = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name "SqlPassword"
+$sqlPassword = '';
+$ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($sqlPasswordSecret.SecretValue)
+try {
+    $sqlPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr)
+} finally {
+    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ssPtr)
+}
+$global:sqlPassword = $sqlPassword
 
 Write-Information "Create SQL-USER-ASA Key Vault Secret"
 $secretValue = ConvertTo-SecureString $sqlPassword -AsPlainText -Force
@@ -595,6 +603,7 @@ foreach ($dataset in $loadingDatasets.Keys) {
 }
 
 Write-Information "Create pipeline to load the SQL pool"
+Refresh-Tokens
 
 $params = @{
         BLOB_STORAGE_LINKED_SERVICE_NAME = $blobStorageAccountName
@@ -608,6 +617,7 @@ $result = Create-Pipeline -PipelinesPath $pipelinesPath -WorkspaceName $workspac
 Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 
 Write-Information "Running pipeline $($loadingPipelineName)"
+Refresh-Tokens
 
 $result = Run-Pipeline -WorkspaceName $workspaceName -Name $loadingPipelineName
 $result = Wait-ForPipelineRun -WorkspaceName $workspaceName -RunId $result.runId
@@ -621,6 +631,7 @@ $result = Delete-ASAObject -WorkspaceName $workspaceName -Category "pipelines" -
 Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
 
 foreach ($dataset in $loadingDatasets.Keys) {
+	Refresh-Tokens
         Write-Information "Deleting dataset $($dataset)"
         $result = Delete-ASAObject -WorkspaceName $workspaceName -Category "datasets" -Name $dataset
         Wait-ForOperation -WorkspaceName $workspaceName -OperationId $result.operationId
@@ -1088,7 +1099,16 @@ $job = Get-AzStreamAnalyticsJob -ResourceGroupName $resourceGroupName -Name $asa
 $principalId = (Get-AzADServicePrincipal -DisplayName $asaName).id
 
 #$wsname = "asa-exp-$uniqueId";
-$wsId = Get-PowerBiWorkspaceId "$resourceGroupName";
+$ws = Get-PowerBiWorkspace $resourceGroupName;
+
+if ($ws)
+{
+    $wsid = $ws.id;
+}
+else
+{
+    $wsId = Get-PowerBiWorkspaceId "$resourceGroupName";
+}
 
 if (!$wsid)
 {
@@ -1098,6 +1118,9 @@ if (!$wsid)
 Add-PowerBIWorkspaceUser $wsId $principalId "Contributor" "App";
 
 Write-Information "Uploading PowerBI Reports"
+
+Refresh-Tokens
+Refresh-Token -TokenType PowerBI
 
 $reportList = New-Object System.Collections.ArrayList
 $temp = "" | select-object @{Name = "FileName"; Expression = {"1. CDP Vision Demo"}}, 
@@ -1127,6 +1150,8 @@ $powerBIDataSetConnectionTemplate = Get-Content -Path "$templatesPath/powerbi_da
 $powerBIName = "asapowerbi$($uniqueId)"
 
 foreach ($powerBIReport in $reportList) {
+
+    Refresh-Token -TokenType PowerBI
 
     Write-Information "Uploading $($powerBIReport.Name) Report"
 
