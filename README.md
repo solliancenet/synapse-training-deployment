@@ -10,8 +10,9 @@
   - [Environment setup instructions](#environment-setup-instructions)
   - [Azure Setup](#azure-setup)
     - [Task 1: Create a resource group in Azure](#task-1-create-a-resource-group-in-azure)
-    - [Task 2: Create an Azure VM for the deployment scripts](#task-2-create-an-azure-vm-for-the-deployment-scripts)
-    - [Task 3: Create Azure Synapse Analytics workspace](#task-3-create-azure-synapse-analytics-workspace)
+    - [Task 2: Create a Power BI workspace](#task-2-create-a-power-bi-workspace)
+    - [Task 3: Create an Azure VM for the deployment scripts](#task-3-create-an-azure-vm-for-the-deployment-scripts)
+    - [Task 4: Create Azure Synapse Analytics workspace](#task-4-create-azure-synapse-analytics-workspace)
   - [Before starting](#before-starting)
   - [Steps & Timing](#steps--timing)
     - [Task 1: Pre-requisites](#task-1-pre-requisites)
@@ -60,13 +61,29 @@
 
 4. Select the **Create** button on the **Resource group** overview page.
 
-5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **synapse-training**, then select the **Review + Create** button.
+5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **synapse-training-INITIALS** (replace INITIALS with your initials), then select the **Review + Create** button. **Copy the resource group name** and save it in Notepad or similar for later reference.
 
     ![The Create a resource group form is displayed populated with synapse-training as the resource group name.](media/bhol_resourcegroupform.png "Create a resource group")
 
 6. Select the **Create** button once validation has passed.
 
-### Task 2: Create an Azure VM for the deployment scripts
+> **Important**: Take note of the _exact_ resource group name you provided for the steps that follow.
+
+### Task 2: Create a Power BI workspace
+
+This step is important if you are using the Microsoft tenant since the setup script will fail when attempting to create the Power BI workspace.
+
+1. Sign in into the [Power BI Portal](https://powerbi.microsoft.com/) using your Azure credentials.
+
+2. Select **Workspaces** in the left-hand menu **(1)**, then select **Create a workspace (2)**.
+
+    ![The Workspaces menu item and Create a workspace button are highlighted.](media/pbi-create-workspace-link.png "Create a workspace")
+
+3. In the form, enter the **same name as your resource group** into the **Workspace name** field (such as `synapse-training-INITIALS`), then select **Save**.
+
+    ![The form is configured as described.](media/pbi-create-workspace.png "Create a workspace")
+
+### Task 3: Create an Azure VM for the deployment scripts
 
 We highly recommend executing the PowerShell scripts on an Azure Virtual Machine instead of from your local machine. Doing so eliminates issues due to pre-existing dependencies and more importantly, network/bandwidth-related issues while executing the scripts.
 
@@ -81,12 +98,12 @@ We highly recommend executing the PowerShell scripts on an Azure Virtual Machine
    | Field                          | Value                                              |
    | ------------------------------ | ------------------------------------------         |
    | Subscription                   | _select the appropriate subscription_              |
-   | Resource group                 | _select `synapse-training`_                      |
+   | Resource group                 | _select `synapse-training-INITIALS`_                      |
    | Virtual machine name           | _`synapse-lab-setup-vm` (or unique name if not available)_      |
    | Region                         | _select the resource group's location_             |
    | Availability options           | _select `No infrastructure redundancy required`_   |
    | Image                          | _select `Windows 10 Pro, Version 1809 - Gen1`_     |
-   | Azure Spot instance            | _select `No`_                                      |
+   | Azure Spot instance            | _set to `Unchecked`_                                      |
    | Size                           | _select `Standard_DS3_v2`_                         |
    | Username                       | _select `labuser`_                             |
    | Password                       | _enter a password you will remember_               |
@@ -120,7 +137,7 @@ We highly recommend executing the PowerShell scripts on an Azure Virtual Machine
 
     ![The desktop software is installing in the Microsoft Store.](media/pbi-desktop-install.png "Power BI Desktop")
 
-### Task 3: Create Azure Synapse Analytics workspace
+### Task 4: Create Azure Synapse Analytics workspace
 
 1. Deploy the workspace through the following Azure ARM template (press the button below):
 
@@ -130,11 +147,12 @@ We highly recommend executing the PowerShell scripts on an Azure Virtual Machine
 
    - **Subscription**: Select your desired subscription for the deployment.
    - **Resource group**: Select the resource group you previously created.
-   - **Unique Suffix**: This unique suffix will be used naming resources that will created as part of your deployment. Use a **maximum of 6 lower-case characters and numbers with no spaces**. Make sure you follow correct Azure [Resource naming](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging#resource-naming) conventions.
+   - **Region**: The datacenter where your Azure Synapse environment will be created.
+
+        > **Important**: The `Region` field under 'Parameters' will list the Azure regions where Azure Synapse Analytics is available as of November 2020. This will help you find a region where the service is available without being limited to where the resource group is defined.
+
+   - **Unique Suffix**: This unique suffix will be used naming resources that will created as part of your deployment. Make sure you follow correct Azure [Resource naming](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging#resource-naming) conventions.
    - **SQL Administrator Login Password**: Provide a strong password for the SQLPool that will be created as part of your deployment. [Visit here](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver15#password-complexity) to read about password rules in place. Your password will be needed during the next steps. Make sure you have your password noted and secured.
-   - **Location**: The datacenter where your Azure Synapse environment will be created.
-   
-    > **Important**: The `location` field under 'Settings' will list the Azure regions where Azure Synapse Analytics (Preview) is available as of September 2020. This will help you find a region where the service is available without being limited to where the resource group is defined.
 
 3. Check the **I agree to the terms and conditions stated above**, then select the **Purchase** button. The provisioning of your deployment resources will take approximately 13 minutes. **Wait** until provisioning successfully completes before continuing. You will need the resources in place before running the scripts below.
 
@@ -153,23 +171,27 @@ The entire script will take between 1.5 and 2 hours to complete. Major steps inc
 
 ### Task 1: Pre-requisites
 
+Install these pre-requisites on your **deployment VM** before continuing.
+
 - Install VC Redist: <https://aka.ms/vs/15/release/vc_redist.x64.exe>
 - Install MS ODBC Driver 17 for SQL Server: <https://www.microsoft.com/download/confirmation.aspx?id=56567>
 - Install SQL CMD x64: <https://go.microsoft.com/fwlink/?linkid=2082790>
 - Install Microsoft Online Services Sign-In Assistant for IT Professionals RTW: <https://www.microsoft.com/download/details.aspx?id=41950>
-- Install [Git client](https://git-scm.com/downloads)
+- Install [Git client](https://git-scm.com/downloads) accepting all the default options in the setup.
 - [Windows PowerShell](https://docs.microsoft.com/powershell/scripting/windows-powershell/install/installing-windows-powershell?view=powershell-7)
 
 ### Task 2: Download artifacts and install PowerShell modules
 
-1. From your **lab VM**, open a PowerShell Window as an administrator, run the following command to download the artifacts
+Perform all of the steps below from your **deployment VM**:
+
+1. Open a PowerShell Window as an administrator, run the following command to download the artifacts
 
     ```powershell
     mkdir c:\labfiles
 
     cd c:\labfiles
 
-    git clone https://github.com/solliancenet/synapse-training-deployment.git synapse-training-deployment
+    git clone https://github.com/ctesta-oneillmsft/asa-vtd.git synapse-in-a-day-deployment
     ```
 
 * Install Azure PowerShell module
@@ -186,11 +208,15 @@ The entire script will take between 1.5 and 2 hours to complete. Major steps inc
     }
     ```
 
+    > [!Note]: You may be prompted to install NuGet providers, and receive a prompt that you are installing the module from an untrusted repository. Select **Yes** in both instances to proceed with the setup
+
 * Install `Az.CosmosDB` module
 
     ```powershell
     Install-Module -Name Az.CosmosDB -AllowClobber
     ```
+
+    > [!Note]: If you receive a prompt that you are installing the module from an untrusted repository, select **Yes to All** to proceed with the setup.
 
 * Install `sqlserver` module
 
@@ -204,15 +230,21 @@ The entire script will take between 1.5 and 2 hours to complete. Major steps inc
     Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
     ```
 
-* **Close the Windows PowerShell window** so you can import the newly installed `Az.CosmosDB` module.
+**IMPORTANT**
+
+* Once the last command has completed, **close the Windows PowerShell window** so you can import the newly installed Az.CosmosDB cmdlet.
 
 ### Task 3: Execute setup scripts
 
-* From your **lab VM**, open Windows PowerShell as an Administrator and execute the following:
+Perform all of the steps below from your **deployment VM**:
+
+* Open Windows PowerShell as an Administrator and execute the following:
 
     ```powershell
     Set-ExecutionPolicy Unrestricted
     ```
+
+    > [!Note]: If you receive a prompt that you are installing the module from an untrusted repository, select **Yes to All** to proceed with the setup.
 
 * Execute the following to import the `Az.CosmosDB` module:
 
@@ -227,22 +259,28 @@ The entire script will take between 1.5 and 2 hours to complete. Major steps inc
     ```
 
 * Execute `Connect-AzAccount` and sign in to your Microsoft user account when prompted.
+
+    > [!WARNING]: You may receive the message "TenantId 'xxxxxx-xxxx-xxxx-xxxx' contains more than one active subscription. The first one will be selected for further use. You can ignore this at this point. When you execute the environment setup, you will choose the subscription in which you deployed the environment resources.
+
 * Execute `az login` and sign in to your Microsoft user account when prompted.
+
+    > If you receive the following error, and have already closed and re-opened the PowerShell window, you need to restart your computer and restart the steps in this task: `The term 'az' is not recognized as the name of a cmdlet, function, script file, or operable program`.
+
 * Execute `.\01-environment-setup.ps1`
 
 1. You will be prompted to setup your Azure PowerShell and Azure CLI context.
 
-2. You may be prompted to enter the name of your desired Azure Subscription. You can copy and paste the value from the list to select one. **Note**: Be certain to include the number next to the subscription name when you copy it.
+2. If you have more than one Azure Subscription, you will be prompted to enter the name of your desired Azure Subscription. You can copy and paste the value from the list to select one. For example:
 
-    Select the resource group you selected during Task 2.2. This will make sure automation runs against the correct environment you provisioned in Azure.
+    ![A subscription is copied and pasted into the text entry.](media/select-desired-subscription.png "Select desired subscription")
 
-    ![The Azure Cloud Shell window is displayed with a selection of resource groups the user owns.](media/setup-resource-group-selection.png)
+3. Enter the name of the resource group you created at the beginning of the environment setup (such as `synapse-training-INITIALS`). This will make sure automation runs against the correct environment you provisioned in Azure.
 
     During the execution of the automation script you may be prompted to approve installations from PS-Gallery. Please approve to proceed with the automation.
 
     ![The Azure Cloud Shell window is displayed with a sample of the output from the preceding command.](media/untrusted-repo.png)
 
-    > **NOTE** This script will take up to 75 minutes to complete.
+    > **NOTE** This script will take between 90 and 150 minutes to complete.
 
 #### Potential errors that you can ignore
 
@@ -256,13 +294,32 @@ You may encounter a few errors and warnings during the script execution. The err
 
     ![Errors are displayed.](media/error-notebook-create.png "Notebook creation errors")
 
+3. Toward the end of the script, you may see the following error. If you do, it can be safely ignored:
+
+    ```PowerShell
+    Starting PowerBI Artifact Provisioning
+    Invoke-WebRequest : The response content cannot be parsed because the Internet Explorer engine is not available, or Internet Explorer's first-launch configuration is not complete. Specify the UseBasicParsing parameter and try again.
+    At C:\labfiles\synapse-in-a-day-deployment\artifacts\environment-setup\solliance-synapse-automation\solliance-synapse-automation. char:15
+    + ...   $result = Invoke-WebRequest -Uri $url -Method GET -ContentType "app ...
+    +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        + CategoryInfo          : NotImplemented: (:) [Invoke-WebRequest], NotSupportedException
+        + FullyQualifiedErrorId : WebCmdletIEDomNotSupportedException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+
+    Cannot index into a null array.
+    At C:\labfiles\synapse-in-a-day-deployment\artifacts\environment-setup\solliance-synapse-automation\solliance-synapse-automation. char:5
+    +     $homeCluster = $result.Headers["home-cluster-uri"]
+    +     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+        + FullyQualifiedErrorId : NullArray
+    ```
+
 ### Task 4: Configure Power BI dataset credentials
 
 Complete this task after setup has completed.
 
 1. Sign in into the [Power BI Portal](https://powerbi.microsoft.com/en-us/) using your Azure credentials.
 
-2. From the hamburger menu select **Workspaces** to access the list of workspaces available to you. Select your the **workspace named after your resource group** (eg. `synapse-training`).
+2. From the hamburger menu select **Workspaces** to access the list of workspaces available to you. Select your the **workspace named after your Azure resource group** (eg. `synapse-training-JDH`).
 
     ![The workspaces button from the hamburger menu is selected to list workspaces available.](media/powerbi_workspace_selection.png "Power BI Workspaces")
 
