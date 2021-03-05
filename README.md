@@ -51,15 +51,9 @@
 
 1. Log into the [Azure Portal](https://portal.azure.com) using your Azure credentials.
 
-2. On the Azure Portal home screen, select the **+ Create a resource** tile.
+2. On the Azure Portal home screen, select the **Menu** button on the top-left corner **(1)**. Hover over **Resource groups (2)**, then select **+ Create (3)**.
 
-    ![A portion of the Azure Portal home screen is displayed with the + Create a resource tile highlighted.](media/bhol_createaresource.png "Create a resource")
-
-3. In the **Search the Marketplace** text box, type **Resource group** and press the **Enter** key.
-
-    ![On the new resource screen Resource group is entered as a search term.](media/bhol_searchmarketplaceresourcegroup.png "New")
-
-4. Select the **Create** button on the **Resource group** overview page.
+    ![The Create button is highlighted.](media/new-resourcegroup.png "Create resource group")
 
 5. On the **Create a resource group** screen, select your desired Subscription and Region. For Resource group, enter **synapse-training-INITIALS** (replace INITIALS with your initials), then select the **Review + Create** button. **Copy the resource group name** and save it in Notepad or similar for later reference.
 
